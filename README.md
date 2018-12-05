@@ -56,6 +56,8 @@ theta0 theta1 tau0 tau1 are 0.54292 0.51804 0.59731 0.72000
 
 # Example
 We simulated gene tree data at multiple loci under isolation-with-initial-migration model, secondary contact model and isolation-with-migration model using the program ms. The two sets of parameter values were used, roughly based on estimates from hominoids and mangroves. They are as follows: 
+![](https://github.com/liujunfengtop/MStree/blob/master/equations/equation1.png)
+
 
 
 The detialed instructions can also be found in MStree_User_Guide.pdf

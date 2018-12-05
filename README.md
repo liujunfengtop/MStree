@@ -22,9 +22,9 @@ mstree mstree.ctl
 ```
 Note that the format of control file mstree.ctl is as follows
 
-| 表格      | 第一列     | 第二列     |
-| ---------- | :-----------:  | :-----------: |
-| 第一行     | 第一列     | 第二列     |
+ 表格      | 第一列     | 第二列     
+ -------- | :-----------:  | :-----------: 
+ 第一行     | 第一列     | 第二列    
     
  
 The detialed instructions can also be found in MStree_User_Guide.pdf

@@ -22,8 +22,9 @@ mstree mstree.ctl
 ```
 Note that the format of control file ```mstree.ctl``` is as follows
 
-*   Red
-*   Green
-*   Blue
+*   seed = -1 --- random seed , no change
+*   outfile = example_out --- output file
+*   seqfile  = example_tree --- input file
+*   getSE = 1000 1000 10 1000 --- four integers used for adjusting output
  
 The detialed instructions can also be found in MStree_User_Guide.pdf

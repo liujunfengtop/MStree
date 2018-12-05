@@ -21,7 +21,9 @@ Then one can run MStree
 mstree mstree.ctl
 ```
 Note that the format of control file mstree.ctl is as follows
--（+*） seed = -1 -（+*） outfile = example_out - （+*）seqfile  = example_tree - （+*）getSE = 1000 1000 10 1000
+| 表格      | 第一列     | 第二列     |
+| ---------- | :-----------:  | :-----------: |
+| 第一行     | 第一列     | 第二列     |
     
  
 The detialed instructions can also be found in MStree_User_Guide.pdf

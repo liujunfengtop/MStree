@@ -53,8 +53,9 @@ The number of tree ((1,3),2)is 1217
 The number of tree ((2,3),1)is 1287
 theta0 theta1 tau0 tau1 are 0.54292 0.51804 0.59731 0.72000
 ```
-Note that ![](http://latex.codecogs.com/gif.latex?\\\theta  = 4N\mu) 
-and ![](http://latex.codecogs.com/gif.latex?\\tau  = t\mu)
+
+# Example
+We simulated gene tree data at multiple loci under isolation-with-initial-migration model, secondary contact model and isolation-with-migration model using the program ms. The two sets of parameter values were used, roughly based on estimates from hominoids and mangroves. They are as follows:  ![](http://latex.codecogs.com/gif.latex?\\theta)
 
 
 The detialed instructions can also be found in MStree_User_Guide.pdf

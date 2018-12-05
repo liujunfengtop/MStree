@@ -58,7 +58,7 @@ theta0 theta1 tau0 tau1 are 0.54292 0.51804 0.59731 0.72000
 We simulated gene tree data at multiple loci under isolation-with-initial-migration model, secondary contact model and isolation-with-migration model using the program ms. The two sets of parameter values were used, roughly based on estimates from hominoids and mangroves. They are as follows: 
 ![](https://github.com/liujunfengtop/MStree/blob/master/equations/equation1.png)(hominoids); ![](https://github.com/liujunfengtop/MStree/blob/master/equations/equation2.png)(mangroves).For the three kinds of models, gene flow is symmetrical and the migration rate (the expected number of migrants per generation) is 1. The number of loci is 10,000 and the number of replicates is 1000. 
 
-* 	Hominoids
+1.  Hominoids
   The simulation commands are as follows
   *   Isolation-with-initial-migration model:
   ```shell
@@ -72,6 +72,7 @@ We simulated gene tree data at multiple loci under isolation-with-initial-migrat
   ```shell
   ms 3 10000 -t 0.005 -T -I 3 1 1 1 -m 1 2 4 -m 2 1 4 -em 0.8 1 2 0 -em 0.8 2 1 0 -ej 0.8 2 1 -ej 1.2 3 1 | tail -n +4 | grep -v // > tree
   ```
+
   
 
 

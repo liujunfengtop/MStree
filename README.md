@@ -3,7 +3,7 @@ MStree is an open-source software for estimating ancestral population sizes and 
 
 
 # Environment
-MStree is written in C language. It has been tested under both Linux and Windows systems. 
+MStree was written in C language. It has been tested under both Linux and Windows systems. 
 
 # Instructions
 Download MStree by the following command
@@ -22,9 +22,8 @@ mstree mstree.ctl
 ```
 Note that the format of control file ```mstree.ctl``` is as follows
 
- 表格      | 第一列     | 第二列     
- -------- | :-----------:  | :-----------: 
- 第一行     | 第一列     | 第二列    
-    
+*   Red
+*   Green
+*   Blue
  
 The detialed instructions can also be found in MStree_User_Guide.pdf

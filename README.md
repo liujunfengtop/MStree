@@ -27,7 +27,7 @@ Note that the format of control file ```mstree.ctl``` is as follows
 *   seqfile  = example_tree --- input file
 *   getSE = 1000 1000 10 1000 --- four integers used for adjusting output
 
-For the term “getSE” in the control file, the value of the first number divide by the second number is usually 1. If the branch length in gene tree is not the product of the number of generations and mutation rate, the first number divide by the second number should be the value which can convert the branch length to the product of the number of generations and mutation rate by multiplying it. For example, the branch length in gene tree obtained by ms is in units of 4N (N is effective population size) generations, so the value of the first number divide by the second number should be 4Nμ (μ is the mutation rate), that is the value of parameter t in ms. The value of the third number divide by the fourth number is the threshold value ![](http://latex.codecogs.com/gif.latex?\\varepsilon) in MStree (see the approach in supplementary material), we suggest the threshold value should be between 0.01 and 0.03.
+For the term `getSE` in the control file, the value of the first number divide by the second number is usually 1. If the branch length in gene tree is not the product of the number of generations and mutation rate, the first number divide by the second number should be the value which can convert the branch length to the product of the number of generations and mutation rate by multiplying it. For example, the branch length in gene tree obtained by ms is in units of 4N (N is effective population size) generations, so the value of the first number divide by the second number should be 4Nμ (μ is the mutation rate), that is the value of parameter t in ms. The value of the third number divide by the fourth number is the threshold value ![](http://latex.codecogs.com/gif.latex?\\varepsilon) in MStree (see the approach in supplementary material), we suggest the threshold value should be between 0.01 and 0.03.
 
 
 For input file `seqfile`, The input file of MStree is gene tree, which is in Newick format. Gene trees for all loci are in one file, one locus after another. For example, gene trees for eight loci are as follows
@@ -44,4 +44,23 @@ For input file `seqfile`, The input file of MStree is gene tree, which is in New
 ```
 Note that. The format ((#:##,#:##):##,#:##) is not available in mstree.
 
+For output file `outfile`, see an example of output below
+
+```
+mstree (Version 1.1, July 2018)
+The number of tree ((1,2),3)is 7496
+The number of tree ((1,3),2)is 1217
+The number of tree ((2,3),1)is 1287
+theta0 theta1 tau0 tau1 are 0.54292 0.51804 0.59731 0.72000
+```
+Note that ![](http://latex.codecogs.com/gif.latex?\\theta  = 4N\mu) and ![](http://latex.codecogs.com/gif.latex?\\tau  = t\mu)
+
+
 The detialed instructions can also be found in MStree_User_Guide.pdf
+
+
+
+
+
+
+

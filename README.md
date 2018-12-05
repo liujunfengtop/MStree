@@ -20,7 +20,7 @@ Then one can run MStree
 ```shell
 mstree mstree.ctl
 ```
-Note that the format of control file mstree.ctl is as follows
+Note that the format of control file ```mstree.ctl``` is as follows
 
  表格      | 第一列     | 第二列     
  -------- | :-----------:  | :-----------: 

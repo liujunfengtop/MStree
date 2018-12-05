@@ -102,7 +102,7 @@ We simulated gene tree data at multiple loci under isolation-with-initial-migrat
      seqfile  = tree           *  the name of input file
      getSE = 10 1000 30 1000   * four numbers are integer and are used to adjust output
    ```
-**The detialed instructions can also be found in MStree_User_Guide.pdf**
+**The detailed instructions can also be found in MStree_User_Guide.pdf**
 
 # License
 This project is licensed under the GNU GPLv3.0 license.

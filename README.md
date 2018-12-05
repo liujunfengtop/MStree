@@ -1,6 +1,7 @@
 # MStree: A robust approach for estimating parameters during speciation with gene flow
 MStree is an open-source software for estimating ancestral population sizes and species divergence times during speciation with gene flow.
 
+![](https://github.com/liujunfengtop/MStree/blob/master/demo.png)
 
 # Environment
 MStree was written in C language. It has been tested under both Linux and Windows systems. 
@@ -100,7 +101,11 @@ We simulated gene tree data at multiple loci under isolation-with-initial-migrat
   seqfile  = tree           *  the name of input file
   getSE = 10 1000 30 1000   * four numbers are integer and are used to adjust output
   ```
-\*The detialed instructions can also be found in MStree_User_Guide.pdf\*
+**The detialed instructions can also be found in MStree_User_Guide.pdf**
+
+# License
+This project is licensed under the GNU GPLv3.0 license.
+
 
 
 

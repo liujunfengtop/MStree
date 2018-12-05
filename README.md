@@ -53,7 +53,8 @@ The number of tree ((1,3),2)is 1217
 The number of tree ((2,3),1)is 1287
 theta0 theta1 tau0 tau1 are 0.54292 0.51804 0.59731 0.72000
 ```
-Note that ![](http://latex.codecogs.com/gif.latex?\\theta  = 4N\mu) and ![](http://latex.codecogs.com/gif.latex?\\tau  = t\mu)
+Note that ![](http://latex.codecogs.com/gif.latex?\\theta  = 4N\mu) 
+and ![](http://latex.codecogs.com/gif.latex?\\tau  = t\mu)
 
 
 The detialed instructions can also be found in MStree_User_Guide.pdf

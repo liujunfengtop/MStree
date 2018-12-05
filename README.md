@@ -1,2 +1,12 @@
 # MStree: A robust approach for estimating parameters during speciation with gene flow
-The C program MStree is used to estimate ancestral population sizes and species divergence times for three species during speciation with gene flow. For the three species, species 1 and species 2 are closely related species, and species 3 is an out-group species. There may be gene flow between species 1 and species 2, but no gene flow occurs between the ancestral species of two closely related species and the species 3. The input file of MStree is gene tree, which is in Newick format, and the gene tree should be estimated from the observed sequence alignments where there must be three sequences, with one sequence from each species, at each locus. Furthermore, the observed sequences should be available from multiple neutral loci. Therefore, we need a program, such as PHYLIP, to convert to gene tree when applying MStree to experimental data.  It is noteworthy that the three species names should be converted to 1, 2 and 3 when using MStree. The detials see the document MStree_User_Guide.pdf
+MStree is an open-source software for estimating ancestral population sizes and species divergence times during speciation with gene flow
+![demo](https://github.com/kimmo1019/BE-ABC/blob/master/src/Demo.png)
+
+# Environment
+MStree is written in C language. It has been tested under both Linux and Windows systems. 
+
+# Instructions
+ Download MStree by the following command
+     git clone https://github.com/liujunfengtop/MStree
+ 
+ The detialed instructions can also be found in MStree_User_Guide.pdf

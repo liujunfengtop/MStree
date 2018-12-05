@@ -30,7 +30,7 @@ Note that the format of control file ```mstree.ctl``` is as follows
 For the term “getSE” in the control file, the value of the first number divide by the second number is usually 1. If the branch length in gene tree is not the product of the number of generations and mutation rate, the first number divide by the second number should be the value which can convert the branch length to the product of the number of generations and mutation rate by multiplying it. For example, the branch length in gene tree obtained by ms is in units of 4N (N is effective population size) generations, so the value of the first number divide by the second number should be 4Nμ (μ is the mutation rate), that is the value of parameter t in ms. The value of the third number divide by the fourth number is the threshold value ![](http://latex.codecogs.com/gif.latex?\\varepsilon) in MStree (see the approach in supplementary material), we suggest the threshold value should be between 0.01 and 0.03.
 
 
-For input file ```seqfile```, The input file of MStree is gene tree, which is in Newick format. Gene trees for all loci are in one file, one locus after another. For example, gene trees for eight loci are as follows
+For input file `seqfile`, The input file of MStree is gene tree, which is in Newick format. Gene trees for all loci are in one file, one locus after another. For example, gene trees for eight loci are as follows
 
 ```
 (3:1.787,(1:0.671,2:0.671):1.116);
@@ -42,5 +42,6 @@ For input file ```seqfile```, The input file of MStree is gene tree, which is in
 (1:1.429,(2:1.233,3:1.233):0.196);
 (2:3.617,(1:1.544,3:1.544):2.073);
 ```
- 
+Note that. The format ((#:##,#:##):##,#:##) is not available in mstree.
+
 The detialed instructions can also be found in MStree_User_Guide.pdf

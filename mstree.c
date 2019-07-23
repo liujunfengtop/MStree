@@ -20,18 +20,18 @@ struct CommonInfo {
 }  com;
 
 int multiplier=100;
-double inipara[8]; /* theta0 theta1 tau0 tau1 qbeta */
+double inipara[4]; /* theta0 theta1 tau0 tau1 */ //change inipara[8] to inipara[4] by liujf 2019-06-04
 double msmultiplier;
 double acc;
 
-int n1=0,n2=0,n3=0,n4=0,n5=0,n6=0;
+int n1=0,n2=0,n3=0; //no use n4, n5, n6 by liujf 2019-06-04
 int m[3];
 
 
 int GetOptions (char *ctlf);
 int ReadTreeData(FILE*fout, char seqfile[]);
-int CountTreeData(char seqfile[], double tau0, float tau1);
-int CountTreeData1(char seqfile[], float t, int j);
+//int CountTreeData(char seqfile[], double tau0, float tau1); no use this function by liujf 2019-06-04
+int CountTreeData1(char seqfile[], float t, float tau0, int j); //add parameter tau0 by liujf 2019-06-04
 int CountTreeData2(char seqfile[], double t, int j);
 int CountTreeData3(char seqfile[], double t, int j);
 int CountTreeData4(char seqfile[], float t, float s, int j);
@@ -141,6 +141,7 @@ int ReadTreeData(FILE*fout, char seqfile[])
 	return(0);
 }
 
+/* no use this function by liujf 2019-06-04
 int CountTreeData(char seqfile[], double tau0, float tau1)
 {
 	FILE *fin = gfopen(seqfile,"r");
@@ -185,13 +186,15 @@ int CountTreeData(char seqfile[], double tau0, float tau1)
 	fclose(fin);
 	return(0);
 }
+*/
 
-int CountTreeData1(char seqfile[], float t, int j)
+//add parameter tau0 and require t5<tau0  by liujf 2019-06-04
+int CountTreeData1(char seqfile[], float t, float tau0, int j)
 {
 	FILE *fin = gfopen(seqfile,"r");
 	char str1[100],str2[100];
-	float t1, t2, t3, t4;
-	int i;
+	float t1, t2, t3, t4, t5;
+	int i, k;
 	
 	for(i=0;i<3;i++) {
 		m[i]=0;
@@ -206,19 +209,29 @@ int CountTreeData1(char seqfile[], float t, int j)
 			memset(str2,0,sizeof(str2));
 			for(i=3;i<100;i++) {
 				if(str1[i]==',') {
+					k=i+4;
 					break;
 				} else {
 					str2[i-3]=str1[i];
 				}
 			}
 			sscanf(str2, "%f", &t1);
-			if(t1>=t2&&t1<t4) {
+			memset(str2,0,sizeof(str2));
+			for(i=k;i<100;i++) {
+				if(str1[i]==',') {
+					break;
+				} else {
+					str2[i-k]=str1[i];
+				}
+			}
+			sscanf(str2, "%f", &t5);
+			if(t1>=t2&&t1<t4&&t5<tau0) {
 				m[0]=m[0]+1;
 			}
-			if(t1>=t3&&t1<t4) {
+			if(t1>=t3&&t1<t4&&t5<tau0) {
 				m[1]=m[1]+1;
 			}
-			if(t1>=t4) {
+			if(t1>=t4&&t5<tau0) {
 				m[2]=m[2]+1;
 			}
 		}
@@ -418,6 +431,7 @@ int GetInitialpara ()
    double e, e1=1.0,e2=1.0;
    float t=10000.0, t1, t2, t3, t4=10000.0, t5;
    char str1[100],str2[100];
+   double e3, e4; //add two variables for computing tau1 by liujf 2019-06-05
 
    FILE *fin = gfopen(com.seqf,"r");
    
@@ -460,8 +474,8 @@ int GetInitialpara ()
 			if(t3>t5) {
 				t5=t3;
 			}
-			t2=t2+t1;
-			j=j+1;
+			//t2=t2+t1; not compute t2 at here by liujf 2019-06-04
+			//j=j+1; not compute j at here by liujf 2019-06-05
 	  }
   }
 	
@@ -487,12 +501,45 @@ int GetInitialpara ()
 		}
 	}
 	
+	//compute t2 when t3<tau0 by liujf 2019-06-04
+	fin = gfopen(com.seqf,"r");
+		
+   while(!feof(fin)) { 
+		fgets(str1,100,fin);
+		if(str1[0]=='(') {
+			memset(str2,0,sizeof(str2));
+			for(i=3;i<100;i++) {
+				if(str1[i]==',') {
+					k=i+4;
+					break;
+				} else {
+					str2[i-3]=str1[i];
+				}
+			}
+			sscanf(str2, "%f", &t1);
+			memset(str2,0,sizeof(str2));
+			for(i=k;i<100;i++) {
+				if(str1[i]==',') {
+					break;
+				} else {
+					str2[i-k]=str1[i];
+				}
+			}
+			sscanf(str2, "%f", &t3);
+			if(t3<(inipara[2]/msmultiplier)) {
+				t2=t2+t1;
+				j=j+1; //compute j at here by liujf 2019-06-05
+			}
+	  }
+  }
+	
+	fclose(fin);
 	
 	i=1;
 	e1=1.0;
 	e2=1.0;
 	while(e1>e||e2>e) {
-		CountTreeData1(com.seqf,t,i);
+		CountTreeData1(com.seqf,t,inipara[2]/msmultiplier,i);  //add input tau0 by liujf 2019-06-04
 		if((m[0]-m[1])==0||(m[0]+m[2])==(m[0]-m[1])) {
 			inipara[0]=2*((t2*msmultiplier/j)-inipara[2]);
 			e1=0.5*e;
@@ -552,12 +599,14 @@ int GetInitialpara ()
 	
 	e1=1.0;
 	e2=1.0;
+	e3=1.0;
+	e4=1.0;
 
-	
+/* abandon the method of computing tau1 by liujf 2019-06-05	
 	while(e1>e||e2>e) {
 		CountTreeData3(com.seqf,inipara[2]/msmultiplier,i);
 		if((m[0]-m[1])==0||(m[0]+m[2])==(m[0]-m[1])||i==100) {
-			inipara[3]=0.5*inipara[2];;
+			inipara[3]=0.5*inipara[2]; //delete redundant semicolon by liujf 2019-06-05
 			e1=0.5*e;
 			e2=0.5*e;
 		} else {
@@ -573,8 +622,36 @@ int GetInitialpara ()
 	  i=i+1;
 		}
 	}
+*/
+	//adopt new method of computing tau1 by liujf 2019-06-05	
+	while(e1>e||e3>e||e4>e) {
+		CountTreeData3(com.seqf,inipara[2]/msmultiplier,i);
+		if(i==100) {
+			e1=0.5*e;
+			e3=0.5*e;
+			e4=0.5*e;
+		} else {
+			e1=(((double)2/3)*exp((-2)*((1.0-0.01*i)*inipara[2])/inipara[1])*(m[2]+m[0]))/(n2+n3)-1.0;
+			e3=(exp((-2)*((1.0-0.01*i)*inipara[2])/inipara[1])-(double)(m[2])/(m[2]+m[0]))/((double)(m[2])/(m[2]+m[0]));
+			e4=(exp((-2)*((1.0-0.01*(i+1))*inipara[2])/inipara[1])-(double)(m[2])/(m[2]+m[1]))/((double)(m[2])/(m[2]+m[1]));
+			if(e1<0) {
+				e1=0-e1;
+			}
+			if(e3<0) {
+				e3=0-e3;
+			}
+			if(e4<0) {
+				e4=0-e4;
+			}
+			if(((e1+e3+e4)/3)<e2) {
+				e2=(e1+e3+e4)/3;
+				inipara[3]=0.01*i*inipara[2];
+			}
+			i=i+1;
+		}
+	}
 
-
+/* no compute inipara[4] by liujf 2019-06-04
 	CountTreeData(com.seqf, inipara[2]/msmultiplier, t4);
 	e1=((1-exp(-2*(inipara[2]-(t4*msmultiplier))/inipara[1]))-((double)(n4)/n5))/((double)(n4)/n5);
 	if(e1<0) {
@@ -591,11 +668,12 @@ int GetInitialpara ()
 			inipara[4]=(double)(n6)/com.ndata;
 		}
 	}
+*/
 	
 	for(i=0; i<4; i++) inipara[i]=inipara[i]*multiplier;
-	inipara[3]=inipara[3]/inipara[2];
+	//inipara[3]=inipara[3]/inipara[2]; abandon this oparation by liujf 2019-06-05
 	
-	printf("\n theta0 tau0 theta1 tau1 p are %9.5f %9.5f %9.5f %9.5f %9.5f\n", inipara[0],inipara[2],inipara[1],inipara[3],inipara[4]); 
+	printf("\n theta0 tau0 theta1 tau1 are %9.5f %9.5f %9.5f %9.5f\n", inipara[0],inipara[2],inipara[1],inipara[3]);  //no output inipara[4] by liujf 2019-06-04
   return(0);
 }
 

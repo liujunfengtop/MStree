@@ -1,4 +1,4 @@
-# MStree: A robust approach for estimating parameters during speciation with gene flow
+# MStree: A model-flexible approach for estimating parameters during speciation with gene flow
 MStree is an open-source software for estimating ancestral population sizes and species divergence times during speciation with gene flow.
 
 ![](https://github.com/liujunfengtop/MStree/blob/master/demo.png)

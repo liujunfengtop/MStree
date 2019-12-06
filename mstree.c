@@ -16,7 +16,7 @@
 struct CommonInfo {
    char outf[128], seqf[128], ctlf[128];
    int seed, getSE;
-   int ndata;
+   //int ndata; //abadon by liujf 2019-06-18
 }  com;
 
 int multiplier=100;
@@ -122,7 +122,8 @@ int ReadTreeData(FILE*fout, char seqfile[])
 	FILE *fin = gfopen(seqfile,"r");
 	char str1[100];
 	while(!feof(fin)) {
-        fgets(str1,100,fin); 
+      memset(str1,0,sizeof(str1)); // add by liujf 2019-08-20  
+      fgets(str1,100,fin); 
     	if(str1[0]=='('&&str1[1]=='3') {
     		n1=n1+1;
     	}
@@ -431,7 +432,8 @@ int GetInitialpara ()
    double e, e1=1.0,e2=1.0;
    float t=10000.0, t1, t2, t3, t4=10000.0, t5;
    char str1[100],str2[100];
-   double e3, e4; //add two variables for computing tau1 by liujf 2019-06-05
+   double e3; //add two variables e3 and e4 for computing tau1 by liujf 2019-06-05; delete e4 by liujf 2019-06-11
+   double temp1; //add temp1 for recording theta1 by Liujf 2019-06-11
 
    FILE *fin = gfopen(com.seqf,"r");
    
@@ -481,9 +483,10 @@ int GetInitialpara ()
 	
 	fclose(fin);
 	
-	com.ndata=j;
+	//com.ndata=j; //abadon by liujf 2019-06-18
 	
 	i=1;
+	e2=100.0; //change e2=1.0 to e2=100.0 by liujf 2019-06-18
 	while(e1>e) {
 		CountTreeData4(com.seqf,t4,t5,i);
 		if(i==1001) {
@@ -564,13 +567,18 @@ int GetInitialpara ()
 	
 
 	i=0;
+	j=0; //add by liujf 2019-06-18
 	while(((0.5+0.01*i)*inipara[2]/msmultiplier)<t4) {
 		i=i+1;
+		j=i; //liujf
 	}
 	
 	e1=1.0;
-	e2=1.0;
-	
+	e2=100.0; //change e2=1.0 to e2=100.0 by liujf 2019-06-18
+	e3=1.0; //add by liujf 2019-06-11
+	temp1=0.0; //add by liujf 2019-06-11
+
+/*	abandon the method of computing theta1 by liujf 2019-06-11
 	while(e1>e||e2>e) {
 		CountTreeData2(com.seqf,inipara[2]/msmultiplier,i);
 		if((m[0]-m[1])==0||(m[0]+m[2])==(m[0]-m[1])||i==50) {
@@ -591,6 +599,68 @@ int GetInitialpara ()
 	  i=i+1;
 		}
 	}
+*/
+
+/* abandon the method of computing theta1 by liujf 2019-06-18
+  //adopt new method of computing theta1 by liujf 2019-06-11
+	while(e1>e||e3>e) {
+		CountTreeData2(com.seqf,inipara[2]/msmultiplier,i);
+		if((m[0]-m[1])==0||(m[0]+m[2])==(m[0]-m[1])||i==50) {
+			if(temp1==0.0) {
+				CountTreeData5(com.seqf, inipara[2]/msmultiplier, (inipara[2]*0.5)/msmultiplier);
+				inipara[1]=(-2)*(inipara[2]*0.5)/log(1-(double)(m[0])/(m[0]+m[1]));
+				e1=0.5*e;
+				e3=0.5*e;
+			} else {
+				e1=0.5*e;
+				e3=0.5*e;
+			}
+		} else {
+			temp1=(-2)*(0.01*inipara[2])/log(1-(double)(m[0]-m[1])/(m[0]+m[2]));
+		  e1=(exp((-2)*((0.5-0.01*i)*inipara[2])/temp1)-(double)(m[2])/(m[2]+m[0]))/((double)(m[2])/(m[2]+m[0]));
+	    if(e1<0) {
+	  	  e1=0-e1;
+	    }
+	    e3=(exp((-2)*((0.5-0.01*(i+1))*inipara[2])/temp1)-(double)(m[2])/(m[2]+m[1]))/((double)(m[2])/(m[2]+m[1]));
+	    if(e3<0) {
+	  	  e3=0-e3;
+	    }
+		  if(((e1+e3)/2)<e2) {
+			  e2=(e1+e3)/2;
+			  inipara[1]=temp1;
+		  }	  	  
+	  i=i+1;
+		}
+	}
+*/
+
+  //adopt new method of computing theta1 by liujf 2019-06-18
+	while(e1>e||e3>e) {
+		CountTreeData2(com.seqf,inipara[2]/msmultiplier,i);
+		if((m[0]-m[1])==0||(m[0]+m[2])==(m[0]-m[1])||i==50) {
+			CountTreeData5(com.seqf, inipara[2]/msmultiplier, (inipara[2]*(0.5+0.01*j))/msmultiplier);
+			inipara[1]=(-2)*(inipara[2]*0.5)/log(1-(double)(m[0])/(m[0]+m[1]));
+			e1=0.5*e;
+			e3=0.5*e;
+		} else {
+			temp1=(-2)*(0.01*inipara[2])/log(1-(double)(m[0]-m[1])/(m[0]+m[2]));
+		  e1=(exp((-2)*((0.5-0.01*i)*inipara[2])/temp1)-(double)(m[2])/(m[2]+m[0]))/((double)(m[2])/(m[2]+m[0]));
+	    if(e1<0) {
+	  	  e1=0-e1;
+	    }
+	    e3=(exp((-2)*((0.5-0.01*(i+1))*inipara[2])/temp1)-(double)(m[2])/(m[2]+m[1]))/((double)(m[2])/(m[2]+m[1]));
+	    if(e3<0) {
+	  	  e3=0-e3;
+	    }
+		  if(((e1+e3)/2)<e2) {
+			  e2=(e1+e3)/2;
+			  inipara[1]=temp1;
+			  j=i;
+		  }	  	  
+	  i=i+1;
+		}
+	}
+
 
 	i=1;
 	while(((0.01*(i+1))*inipara[2]/msmultiplier)<t4) {
@@ -598,9 +668,9 @@ int GetInitialpara ()
 	}
 	
 	e1=1.0;
-	e2=1.0;
+	e2=100.0; //change e2=1.0 to e2=100.0 by liujf 2019-06-18
 	e3=1.0;
-	e4=1.0;
+	//e4=1.0; //adandon by liujf 2019-06-11
 
 /* abandon the method of computing tau1 by liujf 2019-06-05	
 	while(e1>e||e2>e) {
@@ -623,7 +693,7 @@ int GetInitialpara ()
 		}
 	}
 */
-	//adopt new method of computing tau1 by liujf 2019-06-05	
+/*	//adopt new method of computing tau1 by liujf 2019-06-05; abandon by liujf 2019-06-11
 	while(e1>e||e3>e||e4>e) {
 		CountTreeData3(com.seqf,inipara[2]/msmultiplier,i);
 		if(i==100) {
@@ -650,6 +720,31 @@ int GetInitialpara ()
 			i=i+1;
 		}
 	}
+*/
+
+	//adopt new method of computing tau1 by liujf 2019-06-11
+	while(e1>e||e3>e) {
+		CountTreeData3(com.seqf,inipara[2]/msmultiplier,i);
+		if(i==100) {
+			e1=0.5*e;
+			e3=0.5*e;
+		} else {
+			e1=(exp((-2)*((1.0-0.01*i)*inipara[2])/inipara[1])-(double)(m[2])/(m[2]+m[0]))/((double)(m[2])/(m[2]+m[0]));
+			e3=(exp((-2)*((1.0-0.01*(i+1))*inipara[2])/inipara[1])-(double)(m[2])/(m[2]+m[1]))/((double)(m[2])/(m[2]+m[1]));
+			if(e1<0) {
+				e1=0-e1;
+			}
+			if(e3<0) {
+				e3=0-e3;
+			}
+			if(((e1+e3)/2)<e2) {
+				e2=(e1+e3)/2;
+				inipara[3]=0.01*i*inipara[2];
+			}
+			i=i+1;
+		}
+	}
+	
 
 /* no compute inipara[4] by liujf 2019-06-04
 	CountTreeData(com.seqf, inipara[2]/msmultiplier, t4);

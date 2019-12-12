@@ -52,7 +52,7 @@ mstree (Version 1.1, July 2018)
 The number of tree ((1,2),3)is 7496
 The number of tree ((1,3),2)is 1217
 The number of tree ((2,3),1)is 1287
-theta0 theta1 tau0 tau1 are 0.54292 0.51804 0.59731 0.72000
+theta0 theta1 tau0 tau1 are 0.54292 0.51804 0.59731 0.43006
 ```
 
 # Example
